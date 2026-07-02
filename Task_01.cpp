@@ -124,6 +124,7 @@ bool isValidAssignment(string ss){
                 leftIdentifierCount++;
             }
         }
+
     if (leftIdentifierCount == 1)    return true;
 
         int rightIdentifierCount, rightOperatorCount;
@@ -144,19 +145,52 @@ bool isValidAssignment(string ss){
         if (rightOperatorCount > 3) {
             return false;
         }
-        
-        return true;
 
+        return true;
+        }   
     }
+
+string spacedString(string ss){
+    string result = "";
+
+    for (int i = 0; i < (int)ss.length(); i++) {
+        if (i + 1 < (int)ss.length()) {
+            string two = ss.substr(i, 2);
+
+            if (two == "//" || two == "/*" || two == "*/") {
+                result += " ";
+                result += two;
+                result += " ";
+                i++;
+                continue;
+            }
+        }
+
+        char c = ss[i];
+
+        if (c == '+' || c == '-' || c == '*' || c == '/' || c == '%' || c == '=' ||
+            c == '(' || c == ')' || c == '{' || c == '}' || c == '[' || c == ']') {
+            result += " ";
+            result += c;
+            result += " ";
+        }
+        else {
+            result += c;
+        }
     }
+
+    return result;
+}
 int main(){
     cout << "Enter the string line: ";
     string line;
     getline (cin, line);
+    line = spacedString(line);
 
+    cout << line << nl;
     tokenClassification (line);
     if (isComment(line))
-        cout << "Category: Comment";
+        cout << "Category: Comment" nl;
     else {
         if(isValidAssignment(line))
             cout << "Category: Valid Assignment Expression";
